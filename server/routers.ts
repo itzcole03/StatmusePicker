@@ -71,10 +71,8 @@ export const appRouter = router({
         projectionId: z.number(),
       }))
       .mutation(async ({ input }) => {
-        const db = await import('./db').then(m => m.getDb());
-        if (!db) throw new Error('Database not available');
-
-        const projection = await import('./db').then(m => m.getProjectionById(input.projectionId));
+        const { getProjectionById } = await import('./db');
+        const projection = await getProjectionById(input.projectionId);
         if (!projection) {
           throw new Error('Projection not found');
         }
